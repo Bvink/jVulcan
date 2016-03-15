@@ -17,6 +17,7 @@ public class Start {
     public static void main(String[] args) {
         int currentUser = 7;
         int x = 3;
+        int n = 2;
         double treshold = 0.35;
 
         ParseDataset parser = new ParseDataset();
@@ -65,6 +66,8 @@ public class Start {
             predictor.printRateableProducts();
             predictor.generatePredictions();
             predictor.printPredictions();
+            predictor.sortPredictions();
+            predictor.printnPredictions(n);
         }
     }
 

@@ -7,6 +7,8 @@ import wildtornado.databug.objects.Predictor;
 import wildtornado.databug.objects.Preference;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class RatingsPredictor {
@@ -89,6 +91,12 @@ public class RatingsPredictor {
     public void printPredictions() {
         Printer.printPredictions(this.predictions);
     }
+    public void printnPredictions(int n) {
+        if(n > predictions.size()) {
+            n = predictions.size();
+        }
+        Printer.printnPredictions(this.predictions, n);
+    }
 
     private Prediction predictSingleProductRating(List<Predictor> predictors, int product) {
         double distance = getDistanceTotal();
@@ -105,5 +113,18 @@ public class RatingsPredictor {
             distance += d.getDistance();
         }
         return distance;
+    }
+
+    public void sortPredictions() {
+        if (this.predictions.size() > 0) {
+            Collections.sort(this.predictions, new Comparator<Prediction>() {
+                @Override
+                public int compare(Prediction o1, Prediction o2) {
+                    if (o1.getRating() > o2.getRating()) return -1;
+                    if (o1.getRating() < o1.getRating()) return 1;
+                    return 0;
+                }
+            });
+        }
     }
 }

@@ -57,6 +57,15 @@ public class Printer {
         for(Prediction p : predictions) {
             System.out.println("User: " + p.getUserID() + ", product: " + p.getProduct() + ", rating: " + p.getRating());
         }
+        end();
+    }
+
+    public static void printnPredictions(List<Prediction> predictions, int n) {
+        System.out.println("Printing the top " + n + " predictions:");
+        for(int i = 0; i < n; i++) {
+            System.out.println("User: " + predictions.get(i).getUserID() + ", product: " + predictions.get(i).getProduct() + ", rating: " + predictions.get(i).getRating());
+        }
+        end();
     }
 
     private static void end() {
