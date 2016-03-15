@@ -25,7 +25,10 @@ public class Cosine implements Algorithm {
             int selectedUserId = (Integer) me.getKey();
             if (selectedUserId != num) {
                 List<Preference> selectedUserValues = (List<Preference>) me.getValue();
-                distances.add(calculateDistance(currentUserValues, selectedUserValues, selectedUserId));
+                Distance d = calculateDistance(currentUserValues, selectedUserValues, selectedUserId);
+                if (d != null) {
+                    distances.add(calculateDistance(currentUserValues, selectedUserValues, selectedUserId));
+                }
             }
 
         }
@@ -63,7 +66,7 @@ public class Cosine implements Algorithm {
             }
         }
         double distance = sumOfRatingsTimesRatings / (Math.sqrt(sumUserOneRatingsSquare) * Math.sqrt(sumUserTwoRatingsSquare));
-        return new Distance(comparedUserID, distance, matchingProducts, checkIfUserHasAdditionalItem(userOne, userTwo));
+        return (matches > 0 && !Double.isNaN(distance)) ? new Distance(comparedUserID, distance, matchingProducts, checkIfUserHasAdditionalItem(userOne, userTwo)) : null;
     }
 
     private boolean checkIfUserHasAdditionalItem(List<Preference> userOne, List<Preference> userTwo) {
@@ -84,7 +87,7 @@ public class Cosine implements Algorithm {
                 @Override
                 public int compare(Distance o1, Distance o2) {
                     if (o1.getDistance() > o2.getDistance()) return -1;
-                    if (o1.getDistance() < o1.getDistance()) return 1;
+                    if (o1.getDistance() < o2.getDistance()) return 1;
                     return 0;
                 }
             });

@@ -24,7 +24,10 @@ public class Pearson implements Algorithm {
             int selectedUserId = (Integer) me.getKey();
             if (selectedUserId != num) {
                 List<Preference> selectedUserValues = (List<Preference>) me.getValue();
-                distances.add(calculateDistance(currentUserValues, selectedUserValues, selectedUserId));
+                Distance d = calculateDistance(currentUserValues, selectedUserValues, selectedUserId);
+                if (d != null) {
+                    distances.add(calculateDistance(currentUserValues, selectedUserValues, selectedUserId));
+                }
             }
 
         }
@@ -43,7 +46,7 @@ public class Pearson implements Algorithm {
         for (Preference prefOne : userOne) {
             for (Preference prefTwo : userTwo) {
                 if (prefOne.getProduct() == prefTwo.getProduct()) {
-                    sumOfRatingsTimesRatings += prefOne.getRating() * prefTwo.getRating();
+                    sumOfRatingsTimesRatings = sumOfRatingsTimesRatings + prefOne.getRating() * prefTwo.getRating();
                     sumUserOneRatings += prefOne.getRating();
                     sumUserOneRatingsSquare += Math.pow(prefOne.getRating(), 2);
                     sumUserTwoRatings += prefTwo.getRating();
@@ -53,10 +56,12 @@ public class Pearson implements Algorithm {
                 }
             }
         }
+
         double topOfEquation = sumOfRatingsTimesRatings - ((sumUserOneRatings * sumUserTwoRatings) / matches);
         double bottomOfEquation = Math.sqrt(sumUserOneRatingsSquare - (Math.pow(sumUserOneRatings, 2) / matches)) * Math.sqrt(sumUserTwoRatingsSquare - (Math.pow(sumUserTwoRatings, 2)) / matches);
         double distance = topOfEquation / bottomOfEquation;
-        return new Distance(comparedUserID, distance, matches, checkIfUserHasAdditionalItem(userOne, userTwo));
+
+        return (matches > 0 && !Double.isNaN(distance)) ? new Distance(comparedUserID, distance, matches, checkIfUserHasAdditionalItem(userOne, userTwo)) : null;
     }
 
     private boolean checkIfUserHasAdditionalItem(List<Preference> userOne, List<Preference> userTwo) {
@@ -77,7 +82,7 @@ public class Pearson implements Algorithm {
                 @Override
                 public int compare(Distance o1, Distance o2) {
                     if (o1.getDistance() > o2.getDistance()) return -1;
-                    if (o1.getDistance() < o1.getDistance()) return 1;
+                    if (o1.getDistance() < o2.getDistance()) return 1;
                     return 0;
                 }
             });

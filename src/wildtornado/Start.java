@@ -17,7 +17,7 @@ public class Start {
     public static void main(String[] args) {
         int currentUser = 7;
         int x = 3;
-        int n = 2;
+        int n = 8;
         double treshold = 0.35;
 
         ParseDataset parser = new ParseDataset();
