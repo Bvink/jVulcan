@@ -79,11 +79,7 @@ public class RatingsPredictor {
     public void generatePredictions() {
         List<Prediction> predictions = new ArrayList<Prediction>();
         for(int product : this.rateableProducts) {
-            List<Predictor> predictors = new ArrayList<Predictor>();
-            for(Distance neighbour : this.neighbours) {
-                predictors.add(new Predictor(neighbour.getUserID(), product, getSingleRating(neighbour.getUserID(), product), neighbour.getDistance()));
-            }
-            predictions.add(predictSingleProductRating(predictors, product));
+            predictions.add(predictSingleProductRating(getPredictors(product), product));
         }
         this.predictions = predictions;
     }
@@ -105,6 +101,18 @@ public class RatingsPredictor {
             rating += (p.getDistance() / distance) * p.getRating();
         }
         return new Prediction(currentUser, product, rating);
+    }
+
+    public double getSingleProductPrediction(int product) {
+        return predictSingleProductRating(getPredictors(product), product).getRating();
+    }
+
+    private List<Predictor> getPredictors(int product) {
+        List<Predictor> predictors = new ArrayList<Predictor>();
+        for(Distance neighbour : this.neighbours) {
+            predictors.add(new Predictor(neighbour.getUserID(), product, getSingleRating(neighbour.getUserID(), product), neighbour.getDistance()));
+        }
+        return predictors;
     }
 
     private double getDistanceTotal() {
