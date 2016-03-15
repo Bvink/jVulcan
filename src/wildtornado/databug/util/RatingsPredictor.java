@@ -2,6 +2,8 @@ package wildtornado.databug.util;
 
 import wildtornado.databug.UserTreeMap;
 import wildtornado.databug.objects.Distance;
+import wildtornado.databug.objects.Prediction;
+import wildtornado.databug.objects.Predictor;
 import wildtornado.databug.objects.Preference;
 
 import java.util.ArrayList;
@@ -11,7 +13,8 @@ public class RatingsPredictor {
 
     private List<Distance> neighbours;
     private UserTreeMap userTreeMap;
-    List<Integer> rateableProducts;
+    private List<Integer> rateableProducts;
+    private List<Prediction> predictions;
     private int currentUser;
 
     public void setNeighbours(List<Distance> neighbours) {
@@ -61,7 +64,7 @@ public class RatingsPredictor {
         Printer.printRateableProducts(this.rateableProducts, this.currentUser);
     }
 
-    public double getSingleRating(int user, int productNumber) {
+    private double getSingleRating(int user, int productNumber) {
         List<Preference> currentUserRatings = getUserRatings(user);
         for(Preference p : currentUserRatings) {
             if(p.getProduct() == productNumber) {
@@ -71,20 +74,36 @@ public class RatingsPredictor {
         return 0;
     }
 
-    public void predictRatings() {
+    public void generatePredictions() {
+        List<Prediction> predictions = new ArrayList<Prediction>();
         for(int product : this.rateableProducts) {
-            List<Double> ratings = new ArrayList<Double>();
+            List<Predictor> predictors = new ArrayList<Predictor>();
             for(Distance neighbour : this.neighbours) {
-                ratings.add(getSingleRating(neighbour.getUserID(), product));
+                predictors.add(new Predictor(neighbour.getUserID(), product, getSingleRating(neighbour.getUserID(), product), neighbour.getDistance()));
             }
-            predictSingleProductRating(ratings, product);
+            predictions.add(predictSingleProductRating(predictors, product));
         }
+        this.predictions = predictions;
     }
 
-    public void predictSingleProductRating(List<Double> ratings, int product) {
-        System.out.println("product " + product + " has these ratings.");
-        for(double rating : ratings) {
-            System.out.println(rating);
+    public void printPredictions() {
+        Printer.printPredictions(this.predictions);
+    }
+
+    private Prediction predictSingleProductRating(List<Predictor> predictors, int product) {
+        double distance = getDistanceTotal();
+        double rating = 0;
+        for(Predictor p : predictors) {
+            rating += (p.getDistance() / distance) * p.getRating();
         }
+        return new Prediction(currentUser, product, rating);
+    }
+
+    private double getDistanceTotal() {
+        double distance = 0;
+        for(Distance d : neighbours) {
+            distance += d.getDistance();
+        }
+        return distance;
     }
 }

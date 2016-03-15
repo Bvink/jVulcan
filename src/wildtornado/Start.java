@@ -63,9 +63,8 @@ public class Start {
             predictor.printRatedProducts(currentUser);
             predictor.generateRateableProducts();
             predictor.printRateableProducts();
-            predictor.predictRatings();
-
-            System.out.println(predictor.getSingleRating(currentUser, 102));
+            predictor.generatePredictions();
+            predictor.printPredictions();
         }
     }
 

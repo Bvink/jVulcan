@@ -1,6 +1,7 @@
 package wildtornado.databug.util;
 
 import wildtornado.databug.objects.Distance;
+import wildtornado.databug.objects.Prediction;
 
 import java.util.List;
 
@@ -48,6 +49,14 @@ public class Printer {
             System.out.println(product);
         }
         end();
+    }
+
+
+    public static void printPredictions(List<Prediction> predictions) {
+        System.out.println("Printing the predictions:");
+        for(Prediction p : predictions) {
+            System.out.println("User: " + p.getUserID() + ", product: " + p.getProduct() + ", rating: " + p.getRating());
+        }
     }
 
     private static void end() {
