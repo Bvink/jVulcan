@@ -8,13 +8,14 @@ import wildtornado.databug.strategies.Algorithm;
 import wildtornado.databug.strategies.Cosine;
 import wildtornado.databug.strategies.Euclidean;
 import wildtornado.databug.strategies.Pearson;
+import wildtornado.databug.util.RatingsPredictor;
 
 import java.util.List;
 
 public class Start {
 
     public static void main(String[] args) {
-        int currentUser = 3;
+        int currentUser = 7;
         int x = 3;
         double treshold = 0.35;
 
@@ -55,6 +56,16 @@ public class Start {
             cosine.generateTresholdNeighbours(treshold);
             cosine.printTresholdNeighbours();
 
+            RatingsPredictor predictor = new RatingsPredictor();
+            predictor.setNeighbours(pearson.getxNeighbours());
+            predictor.setUserTreeMap(userTreeMap);
+            predictor.setCurrentUser(currentUser);
+            predictor.printRatedProducts(currentUser);
+            predictor.generateRateableProducts();
+            predictor.printRateableProducts();
+            predictor.predictRatings();
+
+            System.out.println(predictor.getSingleRating(currentUser, 102));
         }
     }
 
