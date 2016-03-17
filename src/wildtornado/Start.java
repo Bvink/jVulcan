@@ -15,10 +15,10 @@ import java.util.List;
 public class Start {
 
     public static void main(String[] args) {
-        int currentUser = 3;
+        int currentUser = 7;
         int x = 3;
         int n = 8;
-        double treshold = 0.35;
+        double threshold = 0.35;
 
         ParseDataset parser = new ParseDataset();
         List<User> userList = parser.importCSV();
@@ -34,8 +34,8 @@ public class Start {
             euclidean.printNeighbours();
             euclidean.generatexNeighbours(x);
             euclidean.printxNeighbours();
-            euclidean.generateTresholdNeighbours(treshold);
-            euclidean.printTresholdNeighbours();
+            euclidean.generateThresholdNeighbours(threshold);
+            euclidean.printThresholdNeighbours();
 
             Algorithm pearson = new Pearson();
             pearson.generateDistances(userTreeMap, currentUser, userTreeMap.getSingleUserValues(currentUser));
@@ -44,8 +44,8 @@ public class Start {
             pearson.printNeighbours();
             pearson.generatexNeighbours(x);
             pearson.printxNeighbours();
-            pearson.generateTresholdNeighbours(treshold);
-            pearson.printTresholdNeighbours();
+            pearson.generateThresholdNeighbours(threshold);
+            pearson.printThresholdNeighbours();
 
             Algorithm cosine = new Cosine();
             cosine.generateDistances(userTreeMap, currentUser, userTreeMap.getSingleUserValues(currentUser));
@@ -54,8 +54,8 @@ public class Start {
             cosine.printNeighbours();
             cosine.generatexNeighbours(x);
             cosine.printxNeighbours();
-            cosine.generateTresholdNeighbours(treshold);
-            cosine.printTresholdNeighbours();
+            cosine.generateThresholdNeighbours(threshold);
+            cosine.printThresholdNeighbours();
 
             if(pearson.isSorted()) {
                 RatingsPredictor predictor = new RatingsPredictor();
@@ -70,6 +70,7 @@ public class Start {
                 predictor.sortPredictions();
                 predictor.printnPredictions(n);
             }
+
         }
     }
 

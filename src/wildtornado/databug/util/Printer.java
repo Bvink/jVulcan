@@ -28,9 +28,9 @@ public class Printer {
         }
     }
 
-    public static void printTresholdNeighbours(List<Distance> distances, double treshold, String type) {
+    public static void printThresholdNeighbours(List<Distance> distances, double threshold, String type) {
         if (distances != null) {
-            System.out.println("Printing all " + type + " neighbours with in " + treshold + " treshold.");
+            System.out.println("Printing all " + type + " neighbours with in " + threshold + " threshold.");
             for (Distance distance : distances) {
                 printDistance(distance.getUserID(), distance.getDistance(), distance.getMatchingItems(), distance.getHasAdditionalItems());
             }

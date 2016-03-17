@@ -20,13 +20,13 @@ public interface Algorithm {
 
     public List<Distance> getxNeighbours();
 
-    public void generateTresholdNeighbours(double treshold);
+    public void generateThresholdNeighbours(double threshold);
 
-    public List<Distance> getTresholdNeighbours();
+    public List<Distance> getThresholdNeighbours();
 
     public void printNeighbours();
 
     public void printxNeighbours();
 
-    public void printTresholdNeighbours();
+    public void printThresholdNeighbours();
 }

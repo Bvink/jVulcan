@@ -1,46 +1,21 @@
 package wildtornado.databug.strategies;
 
-import wildtornado.databug.UserTreeMap;
+import wildtornado.databug.constants.Constants;
 import wildtornado.databug.objects.Distance;
 import wildtornado.databug.objects.Preference;
-import wildtornado.databug.util.Printer;
 
 import java.util.*;
 
-public class Euclidean implements Algorithm {
+public class Euclidean extends AlgorithmBaseFunctions implements Algorithm {
 
-    private List<Distance> distances;
-    private List<Distance> nearestxNeighbours;
-    private double treshold;
-    private List<Distance> nearestTresholdNeighbours;
-
-    private boolean sorted = false;
-
-    public void generateDistances(UserTreeMap t, int num, List<Preference> currentUserValues) {
+    public Euclidean() {
+        this.algorithmName = "euclidean";
         this.sorted = false;
-        List<Distance> distances = new ArrayList<Distance>();
-        Set set = t.get().entrySet();
-        Iterator i = set.iterator();
-        while (i.hasNext()) {
-            Map.Entry me = (Map.Entry) i.next();
-            int selectedUserId = (Integer) me.getKey();
-            if (selectedUserId != num) {
-                List<Preference> selectedUserValues = (List<Preference>) me.getValue();
-                Distance d = calculateDistance(currentUserValues, selectedUserValues, selectedUserId);
-                if (d != null) {
-                    distances.add(calculateDistance(currentUserValues, selectedUserValues, selectedUserId));
-                }
-            }
-
-        }
-        this.distances = distances;
+        this.sortMethod = Constants.ASC;
     }
 
-    public List<Distance> getDistances() {
-        return this.distances;
-    }
-
-    private Distance calculateDistance(List<Preference> userOne, List<Preference> userTwo, int comparedUserID) {
+    @Override
+    protected Distance calculateDistance(List<Preference> userOne, List<Preference> userTwo, int comparedUserID) {
         double distance = 0;
         int matches = 0;
         for (Preference prefOne : userOne) {
@@ -53,93 +28,5 @@ public class Euclidean implements Algorithm {
             }
         }
         return matches > 0 ? new Distance(comparedUserID, distance, matches, checkIfUserHasAdditionalItem(userOne, userTwo)) : null;
-    }
-
-    private boolean checkIfUserHasAdditionalItem(List<Preference> userOne, List<Preference> userTwo) {
-        int count = 0;
-        for (Preference prefTwo : userTwo) {
-            for (Preference prefOne : userOne) {
-                if (prefTwo.getProduct() == prefOne.getProduct()) {
-                    count++;
-                }
-            }
-        }
-        return count < userTwo.size();
-    }
-
-    public void sortDistances() {
-        if (this.distances.size() > 0) {
-            this.sorted = true;
-            Collections.sort(this.distances, new Comparator<Distance>() {
-                @Override
-                public int compare(Distance o1, Distance o2) {
-                    if (o1.getDistance() < o2.getDistance()) return -1;
-                    if (o1.getDistance() > o2.getDistance()) return 1;
-                    return 0;
-                }
-            });
-        }
-    }
-
-    public boolean isSorted() {
-        return this.sorted;
-    }
-
-    public void printNeighbours() {
-        Printer.unsortedWarning(sorted);
-        Printer.printNeighbours(this.distances, "euclidean");
-    }
-
-    //This function assumes the set has been sorted.
-    public void generatexNeighbours(int neighbourAmount) {
-        if (Printer.unsortedWarning(this.sorted)) {
-            nearestxNeighbours = new ArrayList<Distance>();
-            if (neighbourAmount > this.distances.size()) {
-                neighbourAmount = this.distances.size();
-                System.out.println("x too large.");
-            }
-            for (int i = 0; i < neighbourAmount; i++) {
-                if (this.distances.get(i).getHasAdditionalItems()) {
-                    nearestxNeighbours.add(this.distances.get(i));
-                } else {
-                    neighbourAmount++;
-                    if (neighbourAmount > this.distances.size()) {
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    public List<Distance> getxNeighbours() {
-        return this.nearestxNeighbours;
-    }
-
-    public void printxNeighbours() {
-        Printer.printxNeighbours(this.nearestxNeighbours, "euclidean");
-    }
-
-    //This function assumes the set has been sorted.
-    public void generateTresholdNeighbours(double treshold) {
-        if (Printer.unsortedWarning(this.sorted)) {
-            nearestTresholdNeighbours = new ArrayList<Distance>();
-            Distance min = distances.get(0);
-            this.treshold = treshold;
-            for (Distance distance : distances) {
-                if (distance.getDistance() <= min.getDistance() * (1 + treshold) && distance.getHasAdditionalItems()) {
-                    nearestTresholdNeighbours.add(distance);
-                } else {
-                    break;
-                }
-            }
-        }
-    }
-
-    public List<Distance> getTresholdNeighbours() {
-        return this.nearestTresholdNeighbours;
-    }
-
-    public void printTresholdNeighbours() {
-        Printer.printTresholdNeighbours(this.nearestTresholdNeighbours, this.treshold, "euclidean");
     }
 }
