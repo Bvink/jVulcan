@@ -14,6 +14,8 @@ public interface Algorithm {
 
     public void sortDistances();
 
+    public boolean isSorted();
+
     public void generatexNeighbours(int x);
 
     public List<Distance> getxNeighbours();

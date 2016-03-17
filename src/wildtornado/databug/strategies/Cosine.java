@@ -11,12 +11,14 @@ import java.util.*;
 public class Cosine implements Algorithm {
 
     private List<Distance> distances;
-    private int neighbourAmount;
     private List<Distance> nearestxNeighbours;
     private double treshold;
     private List<Distance> nearestTresholdNeighbours;
 
+    private boolean sorted = false;
+
     public void generateDistances(UserTreeMap t, int num, List<Preference> currentUserValues) {
+        this.sorted = false;
         List<Distance> distances = new ArrayList<Distance>();
         Set set = t.get().entrySet();
         Iterator i = set.iterator();
@@ -82,6 +84,7 @@ public class Cosine implements Algorithm {
     }
 
     public void sortDistances() {
+        this.sorted = true;
         if (this.distances.size() > 0) {
             Collections.sort(this.distances, new Comparator<Distance>() {
                 @Override
@@ -94,25 +97,31 @@ public class Cosine implements Algorithm {
         }
     }
 
+    public boolean isSorted() {
+        return this.sorted;
+    }
+
     public void printNeighbours() {
+        Printer.unsortedWarning(sorted);
         Printer.printNeighbours(this.distances, "cosine");
     }
 
     //This function assumes the set has been sorted.
     public void generatexNeighbours(int neighbourAmount) {
-        nearestxNeighbours = new ArrayList<Distance>();
-        this.neighbourAmount = neighbourAmount;
-        if (neighbourAmount > this.distances.size()) {
-            neighbourAmount = this.distances.size();
-            System.out.println("x too large.");
-        }
-        for (int i = 0; i < neighbourAmount; i++) {
-            if (this.distances.get(i).getHasAdditionalItems()) {
-                nearestxNeighbours.add(this.distances.get(i));
-            } else {
-                neighbourAmount++;
-                if (neighbourAmount > this.distances.size()) {
-                    break;
+        if (Printer.unsortedWarning(this.sorted)) {
+            nearestxNeighbours = new ArrayList<Distance>();
+            if (neighbourAmount > this.distances.size()) {
+                neighbourAmount = this.distances.size();
+                System.out.println("x too large.");
+            }
+            for (int i = 0; i < neighbourAmount; i++) {
+                if (this.distances.get(i).getHasAdditionalItems()) {
+                    nearestxNeighbours.add(this.distances.get(i));
+                } else {
+                    neighbourAmount++;
+                    if (neighbourAmount > this.distances.size()) {
+                        break;
+                    }
                 }
             }
         }
@@ -123,19 +132,21 @@ public class Cosine implements Algorithm {
     }
 
     public void printxNeighbours() {
-        Printer.printxNeighbours(this.nearestxNeighbours, this.neighbourAmount, "cosine");
+        Printer.printxNeighbours(this.nearestxNeighbours, "cosine");
     }
 
     //This function assumes the set has been sorted.
     public void generateTresholdNeighbours(double treshold) {
-        nearestTresholdNeighbours = new ArrayList<Distance>();
-        Distance min = this.distances.get(0);
-        this.treshold = treshold;
-        for (Distance distance : this.distances) {
-            if (distance.getDistance() >= min.getDistance() * 1 - treshold && distance.getHasAdditionalItems()) {
-                nearestTresholdNeighbours.add(distance);
-            } else {
-                break;
+        if (Printer.unsortedWarning(this.sorted)) {
+            nearestTresholdNeighbours = new ArrayList<Distance>();
+            Distance min = this.distances.get(0);
+            this.treshold = treshold;
+            for (Distance distance : this.distances) {
+                if (distance.getDistance() >= min.getDistance() * 1 - treshold && distance.getHasAdditionalItems()) {
+                    nearestTresholdNeighbours.add(distance);
+                } else {
+                    break;
+                }
             }
         }
     }
