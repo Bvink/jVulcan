@@ -2,7 +2,6 @@ package wildtornado;
 
 import wildtornado.databug.ParseDataset;
 import wildtornado.databug.UserTreeMap;
-import wildtornado.databug.objects.Distance;
 import wildtornado.databug.objects.User;
 import wildtornado.databug.strategies.Algorithm;
 import wildtornado.databug.strategies.Cosine;
@@ -27,51 +26,42 @@ public class Start {
         //t.printData();
 
         if (userTreeMap.userExists(currentUser)) {
-            Algorithm euclidean = new Euclidean();
-            euclidean.generateDistances(userTreeMap, currentUser, userTreeMap.getSingleUserValues(currentUser));
-            List<Distance> euclideanDistances = euclidean.getDistances();
-            euclidean.sortDistances();
-            euclidean.printNeighbours();
-            euclidean.generatexNeighbours(x);
-            euclidean.printxNeighbours();
-            euclidean.generateThresholdNeighbours(threshold);
-            euclidean.printThresholdNeighbours();
+            Algorithm euclidean = algorithm(userTreeMap, currentUser, x, threshold, new Euclidean());
+            Algorithm pearson = algorithm(userTreeMap, currentUser, x, threshold, new Pearson());
+            Algorithm cosine = algorithm(userTreeMap, currentUser, x, threshold, new Cosine());
 
-            Algorithm pearson = new Pearson();
-            pearson.generateDistances(userTreeMap, currentUser, userTreeMap.getSingleUserValues(currentUser));
-            List<Distance> pearsonDistances = pearson.getDistances();
-            pearson.sortDistances();
-            pearson.printNeighbours();
-            pearson.generatexNeighbours(x);
-            pearson.printxNeighbours();
-            pearson.generateThresholdNeighbours(threshold);
-            pearson.printThresholdNeighbours();
-
-            Algorithm cosine = new Cosine();
-            cosine.generateDistances(userTreeMap, currentUser, userTreeMap.getSingleUserValues(currentUser));
-            List<Distance> cosineDistances = cosine.getDistances();
-            cosine.sortDistances();
-            cosine.printNeighbours();
-            cosine.generatexNeighbours(x);
-            cosine.printxNeighbours();
-            cosine.generateThresholdNeighbours(threshold);
-            cosine.printThresholdNeighbours();
-
-            if(pearson.isSorted()) {
-                RatingsPredictor predictor = new RatingsPredictor();
-                predictor.setNeighbours(pearson.getxNeighbours());
-                predictor.setUserTreeMap(userTreeMap);
-                predictor.setCurrentUser(currentUser);
-                predictor.printRatedProducts(currentUser);
-                predictor.generateRateableProducts();
-                predictor.printRateableProducts();
-                predictor.generatePredictions();
-                predictor.printPredictions();
-                predictor.sortPredictions();
-                predictor.printnPredictions(n);
-            }
+            RatingsPredictor predictor = ratingsPredictor(userTreeMap, currentUser, n, pearson);
 
         }
     }
 
+    private static Algorithm algorithm(UserTreeMap userTreeMap, int currentUser, int x, double threshold, Algorithm algorithm) {
+        algorithm.generateDistances(userTreeMap, currentUser, userTreeMap.getSingleUserValues(currentUser));
+        //List<Distance> distances = algorithm.getDistances();
+        algorithm.sortDistances();
+        algorithm.printNeighbours();
+        algorithm.generatexNeighbours(x);
+        algorithm.printxNeighbours();
+        algorithm.generateThresholdNeighbours(threshold);
+        algorithm.printThresholdNeighbours();
+        return algorithm;
+    }
+
+    private static RatingsPredictor ratingsPredictor(UserTreeMap userTreeMap, int currentUser, int n, Algorithm algorithm) {
+        if (algorithm.isSorted()) {
+            RatingsPredictor predictor = new RatingsPredictor();
+            predictor.setNeighbours(algorithm.getxNeighbours());
+            predictor.setUserTreeMap(userTreeMap);
+            predictor.setCurrentUser(currentUser);
+            predictor.printRatedProducts(currentUser);
+            predictor.generateRateableProducts();
+            predictor.printRateableProducts();
+            predictor.generatePredictions();
+            predictor.printPredictions();
+            predictor.sortPredictions();
+            predictor.printnPredictions(n);
+            return predictor;
+        }
+        return null;
+    }
 }

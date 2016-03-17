@@ -34,7 +34,7 @@ public class RatingsPredictor {
     public List<Integer> getRatedProducts(int user) {
         List<Integer> ratedProducts = new ArrayList<Integer>();
         List<Preference> products = userTreeMap.getSingleUserValues(user);
-        for(Preference p : products) {
+        for (Preference p : products) {
             ratedProducts.add(p.getProduct());
         }
         return ratedProducts;
@@ -51,10 +51,10 @@ public class RatingsPredictor {
     public void generateRateableProducts() {
         List<Integer> rateableProducts = new ArrayList<Integer>();
         List<Integer> currentUserRatedProducts = getRatedProducts(currentUser);
-        for(Distance user : this.neighbours) {
+        for (Distance user : this.neighbours) {
             List<Integer> neighbourRatedProducts = getRatedProducts(user.getUserID());
-            for(int product : neighbourRatedProducts) {
-                if(!rateableProducts.contains(product) && !currentUserRatedProducts.contains(product)) {
+            for (int product : neighbourRatedProducts) {
+                if (!rateableProducts.contains(product) && !currentUserRatedProducts.contains(product)) {
                     rateableProducts.add(product);
                 }
             }
@@ -68,8 +68,8 @@ public class RatingsPredictor {
 
     private double getSingleRating(int user, int productNumber) {
         List<Preference> currentUserRatings = getUserRatings(user);
-        for(Preference p : currentUserRatings) {
-            if(p.getProduct() == productNumber) {
+        for (Preference p : currentUserRatings) {
+            if (p.getProduct() == productNumber) {
                 return p.getRating();
             }
         }
@@ -78,7 +78,7 @@ public class RatingsPredictor {
 
     public void generatePredictions() {
         List<Prediction> predictions = new ArrayList<Prediction>();
-        for(int product : this.rateableProducts) {
+        for (int product : this.rateableProducts) {
             predictions.add(predictSingleProductRating(getPredictors(product), product));
         }
         this.predictions = predictions;
@@ -87,8 +87,9 @@ public class RatingsPredictor {
     public void printPredictions() {
         Printer.printPredictions(this.predictions);
     }
+
     public void printnPredictions(int n) {
-        if(n > predictions.size()) {
+        if (n > predictions.size()) {
             n = predictions.size();
         }
         Printer.printnPredictions(this.predictions, n);
@@ -97,7 +98,7 @@ public class RatingsPredictor {
     private Prediction predictSingleProductRating(List<Predictor> predictors, int product) {
         double distance = getDistanceTotal();
         double rating = 0;
-        for(Predictor p : predictors) {
+        for (Predictor p : predictors) {
             rating += (p.getDistance() / distance) * p.getRating();
         }
         return new Prediction(currentUser, product, rating);
@@ -109,7 +110,7 @@ public class RatingsPredictor {
 
     private List<Predictor> getPredictors(int product) {
         List<Predictor> predictors = new ArrayList<Predictor>();
-        for(Distance neighbour : this.neighbours) {
+        for (Distance neighbour : this.neighbours) {
             predictors.add(new Predictor(neighbour.getUserID(), product, getSingleRating(neighbour.getUserID(), product), neighbour.getDistance()));
         }
         return predictors;
@@ -117,7 +118,7 @@ public class RatingsPredictor {
 
     private double getDistanceTotal() {
         double distance = 0;
-        for(Distance d : neighbours) {
+        for (Distance d : neighbours) {
             distance += d.getDistance();
         }
         return distance;

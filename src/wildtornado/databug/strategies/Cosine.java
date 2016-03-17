@@ -5,7 +5,7 @@ import wildtornado.databug.constants.Constants;
 import wildtornado.databug.objects.Distance;
 import wildtornado.databug.objects.Preference;
 
-import java.util.*;
+import java.util.List;
 
 public class Cosine extends AlgorithmBaseFunctions implements Algorithm {
 
