@@ -17,6 +17,7 @@ public class Start {
         int currentUser = 186;
         int amount = 8;
         int neighbours = 25;
+        int minimumNeighbours = 3;
         double threshold = 0.35;
 
         ParseDataSet parser = new ParseDataSet();
@@ -30,7 +31,7 @@ public class Start {
             Algorithm pearson = algorithm(userPreference, currentUser, neighbours, threshold, new Pearson());
             Algorithm cosine = algorithm(userPreference, currentUser, neighbours, threshold, new Cosine());
 
-            RatingsPredictor predictor = ratingsPredictor(userPreference, currentUser, amount, pearson);
+            RatingsPredictor predictor = ratingsPredictor(userPreference, currentUser, amount, minimumNeighbours, pearson);
 
         }
     }
@@ -47,13 +48,13 @@ public class Start {
         return algorithm;
     }
 
-    private static RatingsPredictor ratingsPredictor(UserPreference userHashMap, int currentUser, int amount, Algorithm algorithm) {
+    private static RatingsPredictor ratingsPredictor(UserPreference userHashMap, int currentUser, int amount, int minimumNeighbours, Algorithm algorithm) {
         if (algorithm.isSorted()) {
             RatingsPredictor predictor = new RatingsPredictor(algorithm.getxNeighbours(), userHashMap, currentUser);
             predictor.printRatedProducts(currentUser);
             predictor.generateRateableProducts();
             predictor.printRateableProducts();
-            predictor.generatePredictions();
+            predictor.generatePredictions(minimumNeighbours);
             predictor.printPredictions();
             predictor.sortPredictions();
             predictor.printnPredictions(amount);
