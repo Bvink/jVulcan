@@ -1,6 +1,6 @@
 package wildtornado.databug.strategies;
 
-import wildtornado.databug.UserHashMap;
+import wildtornado.databug.UserPreference;
 import wildtornado.databug.constants.Constants;
 import wildtornado.databug.objects.Distance;
 import wildtornado.databug.objects.Preference;
@@ -20,10 +20,10 @@ public class AlgorithmBaseFunctions {
     protected boolean sorted = false;
     protected int sortMethod = Constants.UNKNOWN;
 
-    public void generateDistances(UserHashMap userHashMap, int num, List<Preference> currentUserValues) {
+    public void generateDistances(UserPreference userPreference, int num, List<Preference> currentUserValues) {
         this.sorted = false;
         List<Distance> distances = new ArrayList<Distance>();
-        Set set = userHashMap.get().entrySet();
+        Set set = userPreference.get().entrySet();
         Iterator i = set.iterator();
         while (i.hasNext()) {
             Map.Entry me = (Map.Entry) i.next();
@@ -92,13 +92,16 @@ public class AlgorithmBaseFunctions {
     }
 
     public void printNeighbours() {
-        Printer.unsortedWarning(sorted);
-        Printer.printNeighbours(this.distances, algorithmName);
+        if (this.sorted) {
+            Printer.printNeighbours(this.distances, algorithmName);
+        } else {
+            Printer.unsortedWarning();
+        }
     }
 
     //This function assumes the set has been sorted.
     public void generatexNeighbours(int neighbourAmount) {
-        if (Printer.unsortedWarning(this.sorted)) {
+        if (this.sorted) {
             nearestxNeighbours = new ArrayList<Distance>();
             if (neighbourAmount > this.distances.size()) {
                 neighbourAmount = this.distances.size();
@@ -114,6 +117,8 @@ public class AlgorithmBaseFunctions {
                     }
                 }
             }
+        } else {
+            Printer.unsortedWarning();
         }
     }
 
@@ -127,7 +132,7 @@ public class AlgorithmBaseFunctions {
 
     //This function assumes the set has been sorted.
     public void generateThresholdNeighbours(double threshold) {
-        if (Printer.unsortedWarning(this.sorted)) {
+        if (this.sorted) {
             nearestThresholdNeighbours = new ArrayList<Distance>();
             Distance min = distances.get(0);
             this.threshold = threshold;
@@ -138,6 +143,8 @@ public class AlgorithmBaseFunctions {
                     break;
                 }
             }
+        } else {
+            Printer.unsortedWarning();
         }
     }
 

@@ -9,7 +9,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParseDataset {
+public class ParseDataSet {
 
     public List<User> importCSV() {
         List<User> collection = new ArrayList<User>();

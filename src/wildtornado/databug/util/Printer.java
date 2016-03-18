@@ -2,13 +2,31 @@ package wildtornado.databug.util;
 
 import wildtornado.databug.objects.Distance;
 import wildtornado.databug.objects.Prediction;
+import wildtornado.databug.objects.Preference;
 
 import java.text.DecimalFormat;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Printer {
 
     private static final DecimalFormat df = new DecimalFormat("0.00000");
+
+    @SuppressWarnings("unchecked")
+    public static void printUserPreferenceData(Set set) {
+        Iterator i = set.iterator();
+        while (i.hasNext()) {
+            Map.Entry me = (Map.Entry) i.next();
+            System.out.print(me.getKey() + ": ");
+            List<Preference> p = (List<Preference>) me.getValue();
+            for (Preference pref : p) {
+                System.out.print(pref.getProduct() + " " + pref.getRating() + ", ");
+            }
+            System.out.println();
+        }
+    }
 
     public static void printNeighbours(List<Distance> distances, String type) {
         System.out.println("printing all " + type + " neighbours.");
@@ -75,12 +93,9 @@ public class Printer {
         end();
     }
 
-    public static boolean unsortedWarning(boolean val) {
-        if (!val) {
-            System.out.println("Warning, the dataset is unsorted!");
-            end();
-        }
-        return val;
+    public static void unsortedWarning() {
+        System.out.println("Warning, the dataset is unsorted!");
+        end();
     }
 
     private static void end() {
