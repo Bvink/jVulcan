@@ -1,6 +1,6 @@
 package wildtornado.databug.util;
 
-import wildtornado.databug.UserTreeMap;
+import wildtornado.databug.UserHashMap;
 import wildtornado.databug.objects.Distance;
 import wildtornado.databug.objects.Prediction;
 import wildtornado.databug.objects.Predictor;
@@ -14,26 +14,20 @@ import java.util.List;
 public class RatingsPredictor {
 
     private List<Distance> neighbours;
-    private UserTreeMap userTreeMap;
+    private UserHashMap userHashMap;
     private List<Integer> rateableProducts;
     private List<Prediction> predictions;
     private int currentUser;
 
-    public void setNeighbours(List<Distance> neighbours) {
+    public RatingsPredictor(List<Distance> neighbours, UserHashMap userHashMap, int currentUser) {
         this.neighbours = neighbours;
-    }
-
-    public void setUserTreeMap(UserTreeMap userTreeMap) {
-        this.userTreeMap = userTreeMap;
-    }
-
-    public void setCurrentUser(int currentUser) {
+        this.userHashMap = userHashMap;
         this.currentUser = currentUser;
     }
 
     public List<Integer> getRatedProducts(int user) {
         List<Integer> ratedProducts = new ArrayList<Integer>();
-        List<Preference> products = userTreeMap.getSingleUserValues(user);
+        List<Preference> products = userHashMap.getSingleUserValues(user);
         for (Preference p : products) {
             ratedProducts.add(p.getProduct());
         }
@@ -45,7 +39,7 @@ public class RatingsPredictor {
     }
 
     public List<Preference> getUserRatings(int user) {
-        return userTreeMap.getSingleUserValues(user);
+        return userHashMap.getSingleUserValues(user);
     }
 
     public void generateRateableProducts() {

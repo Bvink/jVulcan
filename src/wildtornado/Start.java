@@ -1,7 +1,7 @@
 package wildtornado;
 
 import wildtornado.databug.ParseDataset;
-import wildtornado.databug.UserTreeMap;
+import wildtornado.databug.UserHashMap;
 import wildtornado.databug.objects.User;
 import wildtornado.databug.strategies.Algorithm;
 import wildtornado.databug.strategies.Cosine;
@@ -20,23 +20,23 @@ public class Start {
         double threshold = 0.35;
 
         ParseDataset parser = new ParseDataset();
-        List<User> userList = parser.importHundredK();
-        UserTreeMap userTreeMap = new UserTreeMap();
-        userTreeMap.generate(userList);
+        List<User> userList = parser.importCSV();
+        UserHashMap userHashMap = new UserHashMap();
+        userHashMap.generate(userList);
         //t.printData();
 
-        if (userTreeMap.userExists(currentUser)) {
-            Algorithm euclidean = algorithm(userTreeMap, currentUser, x, threshold, new Euclidean());
-            Algorithm pearson = algorithm(userTreeMap, currentUser, x, threshold, new Pearson());
-            Algorithm cosine = algorithm(userTreeMap, currentUser, x, threshold, new Cosine());
+        if (userHashMap.userExists(currentUser)) {
+            Algorithm euclidean = algorithm(userHashMap, currentUser, x, threshold, new Euclidean());
+            Algorithm pearson = algorithm(userHashMap, currentUser, x, threshold, new Pearson());
+            Algorithm cosine = algorithm(userHashMap, currentUser, x, threshold, new Cosine());
 
-            RatingsPredictor predictor = ratingsPredictor(userTreeMap, currentUser, n, pearson);
+            RatingsPredictor predictor = ratingsPredictor(userHashMap, currentUser, n, pearson);
 
         }
     }
 
-    private static Algorithm algorithm(UserTreeMap userTreeMap, int currentUser, int x, double threshold, Algorithm algorithm) {
-        algorithm.generateDistances(userTreeMap, currentUser, userTreeMap.getSingleUserValues(currentUser));
+    private static Algorithm algorithm(UserHashMap userHashMap, int currentUser, int x, double threshold, Algorithm algorithm) {
+        algorithm.generateDistances(userHashMap, currentUser, userHashMap.getSingleUserValues(currentUser));
         //List<Distance> distances = algorithm.getDistances();
         algorithm.sortDistances();
         algorithm.printNeighbours();
@@ -47,12 +47,9 @@ public class Start {
         return algorithm;
     }
 
-    private static RatingsPredictor ratingsPredictor(UserTreeMap userTreeMap, int currentUser, int n, Algorithm algorithm) {
+    private static RatingsPredictor ratingsPredictor(UserHashMap userHashMap, int currentUser, int n, Algorithm algorithm) {
         if (algorithm.isSorted()) {
-            RatingsPredictor predictor = new RatingsPredictor();
-            predictor.setNeighbours(algorithm.getxNeighbours());
-            predictor.setUserTreeMap(userTreeMap);
-            predictor.setCurrentUser(currentUser);
+            RatingsPredictor predictor = new RatingsPredictor(algorithm.getxNeighbours(), userHashMap, currentUser);
             predictor.printRatedProducts(currentUser);
             predictor.generateRateableProducts();
             predictor.printRateableProducts();

@@ -5,26 +5,26 @@ import wildtornado.databug.objects.User;
 
 import java.util.*;
 
-public class UserTreeMap {
+public class UserHashMap {
 
-    private TreeMap<Integer, List<Preference>> userTreeMap = new TreeMap<Integer, List<Preference>>();
+    private HashMap<Integer, List<Preference>> userHashMap = new HashMap<Integer, List<Preference>>();
 
-    public TreeMap generate(List<User> userList) {
+    public HashMap<Integer, List<Preference>> generate(List<User> userList) {
         for (User user : userList) {
-            if (userTreeMap.get(user.getUserID()) == null) {
-                userTreeMap.put(user.getUserID(), new ArrayList<Preference>());
+            if (userHashMap.get(user.getUserID()) == null) {
+                userHashMap.put(user.getUserID(), new ArrayList<Preference>());
             }
-            userTreeMap.get(user.getUserID()).add((user.getPreference()));
+            userHashMap.get(user.getUserID()).add((user.getPreference()));
         }
-        return userTreeMap;
+        return userHashMap;
     }
 
-    public TreeMap get() {
-        return this.userTreeMap;
+    public HashMap<Integer, List<Preference>> get() {
+        return this.userHashMap;
     }
 
     public List<Preference> getSingleUserValues(int num) {
-        Set set = userTreeMap.entrySet();
+        Set set = userHashMap.entrySet();
         Iterator i = set.iterator();
         while (i.hasNext()) {
             Map.Entry me = (Map.Entry) i.next();
@@ -36,11 +36,11 @@ public class UserTreeMap {
     }
 
     public boolean userExists(int num) {
-        return this.userTreeMap.containsKey(num);
+        return this.userHashMap.containsKey(num);
     }
 
     public void printData() {
-        Set set = userTreeMap.entrySet();
+        Set set = userHashMap.entrySet();
         Iterator i = set.iterator();
         while (i.hasNext()) {
             Map.Entry me = (Map.Entry) i.next();

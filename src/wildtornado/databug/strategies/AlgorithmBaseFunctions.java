@@ -1,6 +1,6 @@
 package wildtornado.databug.strategies;
 
-import wildtornado.databug.UserTreeMap;
+import wildtornado.databug.UserHashMap;
 import wildtornado.databug.constants.Constants;
 import wildtornado.databug.objects.Distance;
 import wildtornado.databug.objects.Preference;
@@ -20,10 +20,10 @@ public class AlgorithmBaseFunctions {
     protected boolean sorted = false;
     protected int sortMethod = Constants.UNKNOWN;
 
-    public void generateDistances(UserTreeMap t, int num, List<Preference> currentUserValues) {
+    public void generateDistances(UserHashMap userHashMap, int num, List<Preference> currentUserValues) {
         this.sorted = false;
         List<Distance> distances = new ArrayList<Distance>();
-        Set set = t.get().entrySet();
+        Set set = userHashMap.get().entrySet();
         Iterator i = set.iterator();
         while (i.hasNext()) {
             Map.Entry me = (Map.Entry) i.next();
