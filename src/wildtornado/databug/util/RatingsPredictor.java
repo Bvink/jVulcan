@@ -75,7 +75,9 @@ public class RatingsPredictor {
         List<Prediction> predictions = new ArrayList<Prediction>();
         for (int product : this.rateableProducts) {
             Prediction p = predictSingleProductRating(getPredictors(product), product);
-            if (p.getRatedBy() >= minimumNeighbours) { predictions.add(p); }
+            if (p.getRatedBy() >= minimumNeighbours) {
+                predictions.add(p);
+            }
         }
         this.predictions = predictions;
     }
@@ -86,7 +88,7 @@ public class RatingsPredictor {
 
     //This function assumes the set has been sorted.
     public void printnPredictions(int n) {
-        if(this.sorted) {
+        if (this.sorted) {
             if (n > predictions.size()) {
                 n = predictions.size();
             }
@@ -102,7 +104,9 @@ public class RatingsPredictor {
         double rating = 0;
         for (Predictor p : predictors) {
             rating += (p.getDistance() / distanceTotal) * p.getRating();
-            if (p.getRating() > 0) { count++; }
+            if (p.getRating() > 0) {
+                count++;
+            }
         }
         return new Prediction(currentUser, product, rating, count);
     }
