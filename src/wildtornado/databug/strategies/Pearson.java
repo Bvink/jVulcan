@@ -22,7 +22,7 @@ public class Pearson extends AlgorithmBaseFunctions implements Algorithm {
         for (Preference prefOne : userOne) {
             for (Preference prefTwo : userTwo) {
                 if (prefOne.getProduct() == prefTwo.getProduct()) {
-                    sumOfRatingsTimesRatings = sumOfRatingsTimesRatings + prefOne.getRating() * prefTwo.getRating();
+                    sumOfRatingsTimesRatings += prefOne.getRating() * prefTwo.getRating();
                     sumUserOneRatings += prefOne.getRating();
                     sumUserOneRatingsSquare += Math.pow(prefOne.getRating(), 2);
                     sumUserTwoRatings += prefTwo.getRating();
