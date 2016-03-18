@@ -18,6 +18,7 @@ public class RatingsPredictor {
     private List<Integer> rateableProducts;
     private List<Prediction> predictions;
     private int currentUser;
+    private boolean sorted = false;
 
     public RatingsPredictor(List<Distance> neighbours, UserPreference userPreference, int currentUser) {
         this.neighbours = neighbours;
@@ -82,11 +83,16 @@ public class RatingsPredictor {
         Printer.printPredictions(this.predictions);
     }
 
+    //This function assumes the set has been sorted.
     public void printnPredictions(int n) {
-        if (n > predictions.size()) {
-            n = predictions.size();
+        if(this.sorted) {
+            if (n > predictions.size()) {
+                n = predictions.size();
+            }
+            Printer.printnPredictions(this.predictions, n);
+        } else {
+            Printer.unsortedWarning();
         }
-        Printer.printnPredictions(this.predictions, n);
     }
 
     private Prediction predictSingleProductRating(List<Predictor> predictors, int product) {
@@ -122,6 +128,7 @@ public class RatingsPredictor {
 
     public void sortPredictions() {
         if (this.predictions.size() > 0) {
+            this.sorted = true;
             Collections.sort(this.predictions, new Comparator<Prediction>() {
                 @Override
                 public int compare(Prediction o1, Prediction o2) {

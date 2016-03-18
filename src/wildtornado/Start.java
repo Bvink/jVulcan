@@ -14,40 +14,40 @@ import java.util.List;
 public class Start {
 
     public static void main(String[] args) {
-        int currentUser = 7;
-        int x = 3;
-        int n = 8;
+        int currentUser = 186;
+        int amount = 8;
+        int neighbours = 25;
         double threshold = 0.35;
 
         ParseDataSet parser = new ParseDataSet();
-        List<User> userList = parser.importCSV();
+        List<User> userList = parser.importHundredK();
         UserPreference userPreference = new UserPreference();
         userPreference.generate(userList);
-        userPreference.printData();
+        //userPreference.printData();
 
         if (userPreference.userExists(currentUser)) {
-            Algorithm euclidean = algorithm(userPreference, currentUser, x, threshold, new Euclidean());
-            Algorithm pearson = algorithm(userPreference, currentUser, x, threshold, new Pearson());
-            Algorithm cosine = algorithm(userPreference, currentUser, x, threshold, new Cosine());
+            Algorithm euclidean = algorithm(userPreference, currentUser, neighbours, threshold, new Euclidean());
+            Algorithm pearson = algorithm(userPreference, currentUser, neighbours, threshold, new Pearson());
+            Algorithm cosine = algorithm(userPreference, currentUser, neighbours, threshold, new Cosine());
 
-            RatingsPredictor predictor = ratingsPredictor(userPreference, currentUser, n, pearson);
+            RatingsPredictor predictor = ratingsPredictor(userPreference, currentUser, amount, pearson);
 
         }
     }
 
-    private static Algorithm algorithm(UserPreference userHashMap, int currentUser, int x, double threshold, Algorithm algorithm) {
+    private static Algorithm algorithm(UserPreference userHashMap, int currentUser, int neighbours, double threshold, Algorithm algorithm) {
         algorithm.generateDistances(userHashMap, currentUser, userHashMap.getSingleUserValues(currentUser));
         //List<Distance> distances = algorithm.getDistances();
         algorithm.sortDistances();
         algorithm.printNeighbours();
-        algorithm.generatexNeighbours(x);
+        algorithm.generatexNeighbours(neighbours);
         algorithm.printxNeighbours();
         algorithm.generateThresholdNeighbours(threshold);
         algorithm.printThresholdNeighbours();
         return algorithm;
     }
 
-    private static RatingsPredictor ratingsPredictor(UserPreference userHashMap, int currentUser, int n, Algorithm algorithm) {
+    private static RatingsPredictor ratingsPredictor(UserPreference userHashMap, int currentUser, int amount, Algorithm algorithm) {
         if (algorithm.isSorted()) {
             RatingsPredictor predictor = new RatingsPredictor(algorithm.getxNeighbours(), userHashMap, currentUser);
             predictor.printRatedProducts(currentUser);
@@ -56,7 +56,7 @@ public class Start {
             predictor.generatePredictions();
             predictor.printPredictions();
             predictor.sortPredictions();
-            predictor.printnPredictions(n);
+            predictor.printnPredictions(amount);
             return predictor;
         }
         return null;
