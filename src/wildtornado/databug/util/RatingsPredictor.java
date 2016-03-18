@@ -126,7 +126,7 @@ public class RatingsPredictor {
                 @Override
                 public int compare(Prediction o1, Prediction o2) {
                     if (o1.getRating() > o2.getRating()) return -1;
-                    if (o1.getRating() < o1.getRating()) return 1;
+                    if (o1.getRating() < o2.getRating()) return 1;
                     return 0;
                 }
             });

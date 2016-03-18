@@ -137,10 +137,19 @@ public class AlgorithmBaseFunctions {
             Distance min = distances.get(0);
             this.threshold = threshold;
             for (Distance distance : distances) {
-                if (distance.getDistance() <= min.getDistance() * (1 + threshold) && distance.getHasAdditionalItems()) {
-                    nearestThresholdNeighbours.add(distance);
-                } else {
-                    break;
+                if(this.sortMethod == Constants.ASC) {
+                    if (distance.getDistance() <= min.getDistance() * (1 + threshold) && distance.getHasAdditionalItems()) {
+                        nearestThresholdNeighbours.add(distance);
+                    } else {
+                        break;
+                    }
+                }
+                if(this.sortMethod == Constants.DESC) {
+                    if (distance.getDistance() >= min.getDistance() * (1 - threshold) && distance.getHasAdditionalItems()) {
+                        nearestThresholdNeighbours.add(distance);
+                    } else {
+                        break;
+                    }
                 }
             }
         } else {
