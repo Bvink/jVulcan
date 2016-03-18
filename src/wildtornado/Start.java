@@ -52,6 +52,7 @@ public class Start {
         if (algorithm.isSorted()) {
             RatingsPredictor predictor = new RatingsPredictor(algorithm.getxNeighbours(), userHashMap, currentUser);
             predictor.printRatedProducts(currentUser);
+            predictor.printUserRatings(currentUser);
             predictor.generateRateableProducts();
             predictor.printRateableProducts();
             predictor.generatePredictions(minimumNeighbours);

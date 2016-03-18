@@ -43,6 +43,10 @@ public class RatingsPredictor {
         return userPreference.getSingleUserValues(user);
     }
 
+    public void printUserRatings(int user) {
+        Printer.printUserRatings(getUserRatings(user), user);
+    }
+
     public void generateRateableProducts() {
         List<Integer> rateableProducts = new ArrayList<Integer>();
         List<Integer> currentUserRatedProducts = getRatedProducts(currentUser);

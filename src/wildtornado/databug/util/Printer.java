@@ -69,6 +69,14 @@ public class Printer {
         end();
     }
 
+    public static void printUserRatings(List<Preference> preferences, int user) {
+        System.out.println("Printing the product ratings for user: " + user);
+        for (Preference p : preferences) {
+            System.out.println("Product: " + p.getProduct() + ", Rating: " + p.getRating());
+        }
+        end();
+    }
+
     public static void printRateableProducts(List<Integer> products, int currentUser) {
         System.out.println("Printing the products available to be rated for user: " + currentUser);
         for (int product : products) {
