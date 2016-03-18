@@ -20,7 +20,7 @@ public class Start {
         double threshold = 0.35;
 
         ParseDataset parser = new ParseDataset();
-        List<User> userList = parser.importCSV();
+        List<User> userList = parser.importHundredK();
         UserTreeMap userTreeMap = new UserTreeMap();
         userTreeMap.generate(userList);
         //t.printData();

@@ -96,7 +96,7 @@ public class RatingsPredictor {
     }
 
     private Prediction predictSingleProductRating(List<Predictor> predictors, int product) {
-        double distance = getDistanceTotal();
+        double distance = getDistanceTotal(predictors);
         double rating = 0;
         for (Predictor p : predictors) {
             rating += (p.getDistance() / distance) * p.getRating();
@@ -116,10 +116,12 @@ public class RatingsPredictor {
         return predictors;
     }
 
-    private double getDistanceTotal() {
+    private double getDistanceTotal(List<Predictor> predictors) {
         double distance = 0;
-        for (Distance d : neighbours) {
-            distance += d.getDistance();
+        for (Predictor p : predictors) {
+            if (p.getRating() != 0) {
+                distance += p.getDistance();
+            }
         }
         return distance;
     }
