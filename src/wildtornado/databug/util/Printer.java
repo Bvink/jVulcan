@@ -24,8 +24,9 @@ public class Printer {
             for (Preference pref : p) {
                 System.out.print(pref.getProduct() + " " + pref.getRating() + ", ");
             }
-            System.out.println();
+            end();
         }
+        end();
     }
 
     public static void printNeighbours(List<Distance> distances, String type) {
