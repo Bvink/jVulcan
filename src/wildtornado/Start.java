@@ -1,6 +1,6 @@
 package wildtornado;
 
-import wildtornado.databug.ParseDataSet;
+import wildtornado.databug.util.DataSetParser;
 import wildtornado.databug.UserPreference;
 import wildtornado.databug.constants.Constants;
 import wildtornado.databug.objects.User;
@@ -21,8 +21,9 @@ public class Start {
         int minimumNeighbours = 1;
         double threshold = 0.35;
 
-        ParseDataSet parser = new ParseDataSet();
+        DataSetParser parser = new DataSetParser();
         List<User> userList = parser.dataImport(Constants.CSV);
+
         UserPreference userPreference = new UserPreference();
         userPreference.generate(userList);
         //userPreference.printData();

@@ -1,4 +1,4 @@
-package wildtornado.databug;
+package wildtornado.databug.util;
 
 import wildtornado.databug.objects.DataObject;
 import wildtornado.databug.objects.Preference;
@@ -9,7 +9,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParseDataSet {
+public class DataSetParser {
 
     public List<User> dataImport(DataObject dataObject) {
         List<User> collection = new ArrayList<User>();
