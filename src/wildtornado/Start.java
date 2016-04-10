@@ -43,10 +43,7 @@ public class Start {
         ItemDeviationMatrix itemDeviationMatrix = new ItemDeviationMatrix(userPreferenceList);
         itemDeviationMatrix.generate();
         SlopeOnePredictor slope = new SlopeOnePredictor(currentUser, itemDeviationMatrix, userHashMap);
-        long begin = System.currentTimeMillis();
-        slope.getSingleProductPrediction(437);
-        long end = System.currentTimeMillis();
-        System.out.println("Begin: " + begin + ", End: " + end );
+        slope.generate();
         slope.sortPredictions();
         slope.printPredictions();
 
