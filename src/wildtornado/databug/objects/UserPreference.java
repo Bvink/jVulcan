@@ -1,6 +1,6 @@
 package wildtornado.databug.objects;
 
-public class User {
+public class UserPreference {
 
     private int userID;
     private Preference preference;

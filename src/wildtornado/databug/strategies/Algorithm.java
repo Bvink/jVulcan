@@ -1,6 +1,6 @@
 package wildtornado.databug.strategies;
 
-import wildtornado.databug.UserPreference;
+import wildtornado.databug.storage.UserHashMap;
 import wildtornado.databug.objects.Distance;
 import wildtornado.databug.objects.Preference;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface Algorithm {
 
-    public void generateDistances(UserPreference userPreference, int num, List<Preference> currentUserValues);
+    public void generateDistances(UserHashMap userHashMap, int num, List<Preference> currentUserValues);
 
     public List<Distance> getDistances();
 

@@ -1,9 +1,10 @@
 package wildtornado;
 
+import wildtornado.databug.storage.ItemDeviationMatrix;
+import wildtornado.databug.storage.UserHashMap;
 import wildtornado.databug.util.DataSetParser;
-import wildtornado.databug.UserPreference;
 import wildtornado.databug.constants.Constants;
-import wildtornado.databug.objects.User;
+import wildtornado.databug.objects.UserPreference;
 import wildtornado.databug.strategies.Algorithm;
 import wildtornado.databug.strategies.Cosine;
 import wildtornado.databug.strategies.Euclidean;
@@ -22,23 +23,31 @@ public class Start {
         double threshold = 0.35;
 
         DataSetParser parser = new DataSetParser();
-        List<User> userList = parser.dataImport(Constants.CSV);
+        List<UserPreference> userPreferenceList = parser.dataImport(Constants.CSV);
 
-        UserPreference userPreference = new UserPreference();
-        userPreference.generate(userList);
+        /*
+
+        UserHashMap userHashMap = new UserHashMap();
+        userHashMap.generate(userPreferenceList);
         //userPreference.printData();
 
-        if (userPreference.userExists(currentUser)) {
-            Algorithm euclidean = algorithm(userPreference, currentUser, neighbours, threshold, new Euclidean());
-            Algorithm pearson = algorithm(userPreference, currentUser, neighbours, threshold, new Pearson());
-            Algorithm cosine = algorithm(userPreference, currentUser, neighbours, threshold, new Cosine());
+        if (userHashMap.userExists(currentUser)) {
+            Algorithm euclidean = algorithm(userHashMap, currentUser, neighbours, threshold, new Euclidean());
+            Algorithm pearson = algorithm(userHashMap, currentUser, neighbours, threshold, new Pearson());
+            Algorithm cosine = algorithm(userHashMap, currentUser, neighbours, threshold, new Cosine());
 
-            RatingsPredictor predictor = ratingsPredictor(userPreference, currentUser, amount, minimumNeighbours, pearson);
+            RatingsPredictor predictor = ratingsPredictor(userHashMap, currentUser, amount, minimumNeighbours, pearson);
 
         }
+
+        */
+
+        ItemDeviationMatrix itemDeviationMatrix = new ItemDeviationMatrix(userPreferenceList);
+        itemDeviationMatrix.generate();
+
     }
 
-    private static Algorithm algorithm(UserPreference userHashMap, int currentUser, int neighbours, double threshold, Algorithm algorithm) {
+    private static Algorithm algorithm(UserHashMap userHashMap, int currentUser, int neighbours, double threshold, Algorithm algorithm) {
         algorithm.generateDistances(userHashMap, currentUser, userHashMap.getSingleUserValues(currentUser));
         //List<Distance> distances = algorithm.getDistances();
         algorithm.sortDistances();
@@ -50,7 +59,7 @@ public class Start {
         return algorithm;
     }
 
-    private static RatingsPredictor ratingsPredictor(UserPreference userHashMap, int currentUser, int amount, int minimumNeighbours, Algorithm algorithm) {
+    private static RatingsPredictor ratingsPredictor(UserHashMap userHashMap, int currentUser, int amount, int minimumNeighbours, Algorithm algorithm) {
         if (algorithm.isSorted()) {
             RatingsPredictor predictor = new RatingsPredictor(algorithm.getxNeighbours(), userHashMap, currentUser);
             predictor.printRatedProducts(currentUser);

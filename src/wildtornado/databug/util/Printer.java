@@ -5,10 +5,7 @@ import wildtornado.databug.objects.Prediction;
 import wildtornado.databug.objects.Preference;
 
 import java.text.DecimalFormat;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Printer {
 
@@ -105,6 +102,18 @@ public class Printer {
     public static void unsortedWarning() {
         System.out.println("Warning, the dataset is unsorted!");
         end();
+    }
+
+    public static void printDevMatrix(double[][] matrix) {
+        for (double[] row : matrix) {
+            System.out.println(Arrays.toString(row));
+        }
+    }
+
+    public static void printFreqMatrix(int[][] matrix) {
+        for (int[] row : matrix) {
+            System.out.println(Arrays.toString(row));
+        }
     }
 
     private static void end() {
