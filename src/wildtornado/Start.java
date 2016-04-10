@@ -1,35 +1,33 @@
 package wildtornado;
 
+import wildtornado.databug.predictors.DistancePredictor;
+import wildtornado.databug.predictors.SlopeOnePredictor;
 import wildtornado.databug.storage.ItemDeviationMatrix;
 import wildtornado.databug.storage.UserHashMap;
 import wildtornado.databug.util.DataSetParser;
 import wildtornado.databug.constants.Constants;
 import wildtornado.databug.objects.UserPreference;
 import wildtornado.databug.strategies.Algorithm;
-import wildtornado.databug.strategies.Cosine;
-import wildtornado.databug.strategies.Euclidean;
-import wildtornado.databug.strategies.Pearson;
-import wildtornado.databug.util.RatingsPredictor;
 
 import java.util.List;
 
 public class Start {
 
     public static void main(String[] args) {
-        int currentUser = 7;
+        int currentUser = 186;
         int amount = 3;
         int neighbours = 3;
         int minimumNeighbours = 1;
         double threshold = 0.35;
 
         DataSetParser parser = new DataSetParser();
-        List<UserPreference> userPreferenceList = parser.dataImport(Constants.CSV);
-
-        /*
+        List<UserPreference> userPreferenceList = parser.dataImport(Constants.HUNDREDK);
 
         UserHashMap userHashMap = new UserHashMap();
         userHashMap.generate(userPreferenceList);
         //userPreference.printData();
+
+        /*
 
         if (userHashMap.userExists(currentUser)) {
             Algorithm euclidean = algorithm(userHashMap, currentUser, neighbours, threshold, new Euclidean());
@@ -44,6 +42,13 @@ public class Start {
 
         ItemDeviationMatrix itemDeviationMatrix = new ItemDeviationMatrix(userPreferenceList);
         itemDeviationMatrix.generate();
+        SlopeOnePredictor slope = new SlopeOnePredictor(currentUser, itemDeviationMatrix, userHashMap);
+        long begin = System.currentTimeMillis();
+        slope.getSingleProductPrediction(437);
+        long end = System.currentTimeMillis();
+        System.out.println("Begin: " + begin + ", End: " + end );
+        slope.sortPredictions();
+        slope.printPredictions();
 
     }
 
@@ -59,9 +64,9 @@ public class Start {
         return algorithm;
     }
 
-    private static RatingsPredictor ratingsPredictor(UserHashMap userHashMap, int currentUser, int amount, int minimumNeighbours, Algorithm algorithm) {
+    private static DistancePredictor ratingsPredictor(UserHashMap userHashMap, int currentUser, int amount, int minimumNeighbours, Algorithm algorithm) {
         if (algorithm.isSorted()) {
-            RatingsPredictor predictor = new RatingsPredictor(algorithm.getxNeighbours(), userHashMap, currentUser);
+            DistancePredictor predictor = new DistancePredictor(algorithm.getxNeighbours(), userHashMap, currentUser);
             predictor.printRatedProducts(currentUser);
             predictor.printUserRatings(currentUser);
             predictor.generateRateableProducts();

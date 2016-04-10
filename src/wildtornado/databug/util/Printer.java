@@ -86,18 +86,26 @@ public class Printer {
     public static void printPredictions(List<Prediction> predictions) {
         System.out.println("Printing the predictions:");
         for (Prediction p : predictions) {
-            System.out.println("User: " + p.getUserID() + ", product: " + p.getProduct() + ", rating: " + df.format(p.getRating()) + ", Rated by " + p.getRatedBy() + " other users.");
+            System.out.println("User: " + p.getUserID() + ", product: " + p.getProduct() + ", rating: " + df.format(p.getRating()));
+            if(p.getRatedBy() > 0) {
+                System.out.print(", Rated by " + p.getRatedBy() + " other users.");
+            }
         }
         end();
     }
 
+
     public static void printnPredictions(List<Prediction> predictions, int n) {
         System.out.println("Printing the top " + n + " predictions:");
         for (int i = 0; i < n; i++) {
-            System.out.println("User: " + predictions.get(i).getUserID() + ", product: " + predictions.get(i).getProduct() + ", rating: " + df.format(predictions.get(i).getRating()) + ", Rated by " + predictions.get(i).getRatedBy() + " other users.");
+            System.out.println("User: " + predictions.get(i).getUserID() + ", product: " + predictions.get(i).getProduct() + ", rating: " + df.format(predictions.get(i).getRating()));
+            if(predictions.get(i).getRatedBy() > 0) {
+                System.out.print(", Rated by " + predictions.get(i).getRatedBy() + " other users.");
+            }
         }
         end();
     }
+
 
     public static void unsortedWarning() {
         System.out.println("Warning, the dataset is unsorted!");

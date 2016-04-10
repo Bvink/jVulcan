@@ -1,26 +1,24 @@
-package wildtornado.databug.util;
+package wildtornado.databug.predictors;
 
 import wildtornado.databug.storage.UserHashMap;
 import wildtornado.databug.objects.Distance;
 import wildtornado.databug.objects.Prediction;
 import wildtornado.databug.objects.Predictor;
 import wildtornado.databug.objects.Preference;
+import wildtornado.databug.util.Printer;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class RatingsPredictor {
+public class DistancePredictor extends BasePredictor {
 
     private List<Distance> neighbours;
     private UserHashMap userHashMap;
     private List<Integer> rateableProducts;
-    private List<Prediction> predictions;
-    private int currentUser;
-    private boolean sorted = false;
 
-    public RatingsPredictor(List<Distance> neighbours, UserHashMap userHashMap, int currentUser) {
+    public DistancePredictor(List<Distance> neighbours, UserHashMap userHashMap, int currentUser) {
         this.neighbours = neighbours;
         this.userHashMap = userHashMap;
         this.currentUser = currentUser;
@@ -86,22 +84,6 @@ public class RatingsPredictor {
         this.predictions = predictions;
     }
 
-    public void printPredictions() {
-        Printer.printPredictions(this.predictions);
-    }
-
-    //This function assumes the set has been sorted.
-    public void printnPredictions(int n) {
-        if (this.sorted) {
-            if (n > predictions.size()) {
-                n = predictions.size();
-            }
-            Printer.printnPredictions(this.predictions, n);
-        } else {
-            Printer.unsortedWarning();
-        }
-    }
-
     private Prediction predictSingleProductRating(List<Predictor> predictors, int product) {
         int count = 0;
         double distanceTotal = getDistanceTotal(predictors);
@@ -137,17 +119,4 @@ public class RatingsPredictor {
         return getDistanceTotal;
     }
 
-    public void sortPredictions() {
-        if (this.predictions.size() > 0) {
-            this.sorted = true;
-            Collections.sort(this.predictions, new Comparator<Prediction>() {
-                @Override
-                public int compare(Prediction o1, Prediction o2) {
-                    if (o1.getRating() > o2.getRating()) return -1;
-                    if (o1.getRating() < o2.getRating()) return 1;
-                    return 0;
-                }
-            });
-        }
-    }
 }
