@@ -1,6 +1,6 @@
 package wildtornado.databug.objects;
 
-public class Prediction {
+public class Prediction implements Comparable {
 
     private int userID;
     private int product;
@@ -44,5 +44,13 @@ public class Prediction {
 
     public void setRatedBy(int ratedBy) {
         this.ratedBy = ratedBy;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Prediction that = (Prediction) o;
+        if (this.getRating() > that.getRating()) return -1;
+        if (this.getRating() < that.getRating()) return 1;
+        return 0;
     }
 }

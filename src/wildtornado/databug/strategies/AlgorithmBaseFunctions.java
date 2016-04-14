@@ -8,7 +8,7 @@ import wildtornado.databug.util.Printer;
 
 import java.util.*;
 
-public class AlgorithmBaseFunctions {
+public abstract class AlgorithmBaseFunctions implements Algorithm {
 
     protected String algorithmName;
 
@@ -62,28 +62,8 @@ public class AlgorithmBaseFunctions {
 
     public void sortDistances() {
         if (this.distances.size() > 0) {
-            if (sortMethod == Constants.ASC) {
-                this.sorted = true;
-                Collections.sort(this.distances, new Comparator<Distance>() {
-                    @Override
-                    public int compare(Distance o1, Distance o2) {
-                        if (o1.getDistance() < o2.getDistance()) return -1;
-                        if (o1.getDistance() > o2.getDistance()) return 1;
-                        return 0;
-                    }
-                });
-            }
-            if (sortMethod == Constants.DESC) {
-                this.sorted = true;
-                Collections.sort(this.distances, new Comparator<Distance>() {
-                    @Override
-                    public int compare(Distance o1, Distance o2) {
-                        if (o1.getDistance() > o2.getDistance()) return -1;
-                        if (o1.getDistance() < o2.getDistance()) return 1;
-                        return 0;
-                    }
-                });
-            }
+            this.sorted = true;
+            Collections.sort(this.distances);
         }
     }
 

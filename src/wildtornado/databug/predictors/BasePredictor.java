@@ -4,7 +4,6 @@ import wildtornado.databug.objects.Prediction;
 import wildtornado.databug.util.Printer;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class BasePredictor {
@@ -20,14 +19,7 @@ public class BasePredictor {
     public void sortPredictions() {
         if (this.predictions.size() > 0) {
             this.sorted = true;
-            Collections.sort(this.predictions, new Comparator<Prediction>() {
-                @Override
-                public int compare(Prediction o1, Prediction o2) {
-                    if (o1.getRating() > o2.getRating()) return -1;
-                    if (o1.getRating() < o2.getRating()) return 1;
-                    return 0;
-                }
-            });
+            Collections.sort(this.predictions);
         }
     }
 

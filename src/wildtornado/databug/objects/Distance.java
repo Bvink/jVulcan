@@ -1,17 +1,21 @@
 package wildtornado.databug.objects;
 
-public class Distance {
+import wildtornado.databug.constants.Constants;
+
+public class Distance implements Comparable {
 
     private int userID;
     private double distance;
     private int matchingItems;
     private boolean hasAdditionalItems;
+    private int sortMethod;
 
-    public Distance(int userID, double distance, int matchingItems, boolean hasAdditionalItems) {
+    public Distance(int userID, double distance, int matchingItems, boolean hasAdditionalItems, int sortMethod) {
         this.userID = userID;
         this.distance = distance;
         this.matchingItems = matchingItems;
         this.hasAdditionalItems = hasAdditionalItems;
+        this.sortMethod = sortMethod;
     }
 
     public int getUserID() {
@@ -44,5 +48,21 @@ public class Distance {
 
     public void setHasAdditionalItems(boolean hasAdditionalItems) {
         this.hasAdditionalItems = hasAdditionalItems;
+    }
+
+    public int getSortMethod() {
+        return sortMethod;
+    }
+
+    public void setSortMethod(int sortMethod) {
+        this.sortMethod = sortMethod;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Distance that = (Distance) o;
+        if (this.getDistance() < that.getDistance()) return -sortMethod;
+        if (this.getDistance() > that.getDistance()) return sortMethod;
+        return Constants.UNKNOWN;
     }
 }

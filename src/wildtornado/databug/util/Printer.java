@@ -86,10 +86,11 @@ public class Printer {
     public static void printPredictions(List<Prediction> predictions) {
         System.out.println("Printing the predictions:");
         for (Prediction p : predictions) {
-            System.out.println("User: " + p.getUserID() + ", product: " + p.getProduct() + ", rating: " + df.format(p.getRating()));
+            System.out.print("User: " + p.getUserID() + ", product: " + p.getProduct() + ", rating: " + df.format(p.getRating()));
             if(p.getRatedBy() > 0) {
                 System.out.print(", Rated by " + p.getRatedBy() + " other users.");
             }
+            end();
         }
         end();
     }
@@ -98,10 +99,11 @@ public class Printer {
     public static void printnPredictions(List<Prediction> predictions, int n) {
         System.out.println("Printing the top " + n + " predictions:");
         for (int i = 0; i < n; i++) {
-            System.out.println("User: " + predictions.get(i).getUserID() + ", product: " + predictions.get(i).getProduct() + ", rating: " + df.format(predictions.get(i).getRating()));
+            System.out.print("User: " + predictions.get(i).getUserID() + ", product: " + predictions.get(i).getProduct() + ", rating: " + df.format(predictions.get(i).getRating()));
             if(predictions.get(i).getRatedBy() > 0) {
                 System.out.print(", Rated by " + predictions.get(i).getRatedBy() + " other users.");
             }
+            end();
         }
         end();
     }

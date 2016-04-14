@@ -6,7 +6,7 @@ import wildtornado.databug.objects.Preference;
 
 import java.util.List;
 
-public class Euclidean extends AlgorithmBaseFunctions implements Algorithm {
+public class Euclidean extends AlgorithmBaseFunctions {
 
     public Euclidean() {
         this.algorithmName = "euclidean";
@@ -27,6 +27,6 @@ public class Euclidean extends AlgorithmBaseFunctions implements Algorithm {
                 }
             }
         }
-        return matches > 0 ? new Distance(comparedUserID, distance, matches, checkIfUserHasAdditionalItem(userOne, userTwo)) : null;
+        return matches > 0 ? new Distance(comparedUserID, distance, matches, checkIfUserHasAdditionalItem(userOne, userTwo), this.sortMethod) : null;
     }
 }

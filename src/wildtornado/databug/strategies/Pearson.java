@@ -6,7 +6,7 @@ import wildtornado.databug.objects.Preference;
 
 import java.util.List;
 
-public class Pearson extends AlgorithmBaseFunctions implements Algorithm {
+public class Pearson extends AlgorithmBaseFunctions {
 
     public Pearson() {
         this.algorithmName = "pearson";
@@ -14,6 +14,7 @@ public class Pearson extends AlgorithmBaseFunctions implements Algorithm {
         this.sortMethod = Constants.DESC;
     }
 
+    @Override
     protected Distance calculateDistance(List<Preference> userOne, List<Preference> userTwo, int comparedUserID) {
         double sumOfRatingsTimesRatings = 0;
         double sumUserOneRatings = 0, sumUserOneRatingsSquare = 0;
@@ -37,6 +38,6 @@ public class Pearson extends AlgorithmBaseFunctions implements Algorithm {
         double bottomOfEquation = Math.sqrt(sumUserOneRatingsSquare - (Math.pow(sumUserOneRatings, 2) / matches)) * Math.sqrt(sumUserTwoRatingsSquare - (Math.pow(sumUserTwoRatings, 2)) / matches);
         double distance = topOfEquation / bottomOfEquation;
 
-        return (matches > 0 && !Double.isNaN(distance)) ? new Distance(comparedUserID, distance, matches, checkIfUserHasAdditionalItem(userOne, userTwo)) : null;
+        return (matches > 0 && !Double.isNaN(distance)) ? new Distance(comparedUserID, distance, matches, checkIfUserHasAdditionalItem(userOne, userTwo), this.sortMethod) : null;
     }
 }

@@ -7,7 +7,7 @@ import wildtornado.databug.objects.Preference;
 
 import java.util.List;
 
-public class Cosine extends AlgorithmBaseFunctions implements Algorithm {
+public class Cosine extends AlgorithmBaseFunctions {
 
     public Cosine() {
         this.algorithmName = "cosine";
@@ -15,6 +15,7 @@ public class Cosine extends AlgorithmBaseFunctions implements Algorithm {
         this.sortMethod = Constants.DESC;
     }
 
+    @Override
     protected Distance calculateDistance(List<Preference> userOne, List<Preference> userTwo, int comparedUserID) {
         double sumOfRatingsTimesRatings = 0;
         double sumUserOneRatingsSquare = 0;
@@ -32,6 +33,6 @@ public class Cosine extends AlgorithmBaseFunctions implements Algorithm {
             }
         }
         double distance = sumOfRatingsTimesRatings / (Math.sqrt(sumUserOneRatingsSquare) * Math.sqrt(sumUserTwoRatingsSquare));
-        return (matches > 0 && !Double.isNaN(distance)) ? new Distance(comparedUserID, distance, matches, checkIfUserHasAdditionalItem(userOne, userTwo)) : null;
+        return (matches > 0 && !Double.isNaN(distance)) ? new Distance(comparedUserID, distance, matches, checkIfUserHasAdditionalItem(userOne, userTwo), this.sortMethod) : null;
     }
 }

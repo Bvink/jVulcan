@@ -8,8 +8,6 @@ import wildtornado.databug.objects.Preference;
 import wildtornado.databug.util.Printer;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class DistancePredictor extends BasePredictor {
