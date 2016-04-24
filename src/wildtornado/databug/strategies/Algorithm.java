@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface Algorithm {
 
+    public void run(int neighbours, double threshold);
+
     public void generateDistances(UserHashMap userHashMap, int num, List<Preference> currentUserValues);
 
     public List<Distance> getDistances();

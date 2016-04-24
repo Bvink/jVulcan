@@ -3,12 +3,16 @@ package wildtornado.databug.strategies;
 import wildtornado.databug.constants.Constants;
 import wildtornado.databug.objects.Distance;
 import wildtornado.databug.objects.Preference;
+import wildtornado.databug.storage.UserHashMap;
 
 import java.util.List;
 
-public class Euclidean extends AlgorithmBaseFunctions {
+public class Euclidean extends BaseAlgorithmFunctions {
 
-    public Euclidean() {
+    public Euclidean(UserHashMap userHashMap, int currentUser) {
+
+        this.userHashMap = userHashMap;
+        this.currentUser = currentUser;
         this.algorithmName = "euclidean";
         this.sorted = false;
         this.sortMethod = Constants.ASC;

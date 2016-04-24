@@ -3,12 +3,17 @@ package wildtornado.databug.strategies;
 import wildtornado.databug.constants.Constants;
 import wildtornado.databug.objects.Distance;
 import wildtornado.databug.objects.Preference;
+import wildtornado.databug.storage.UserHashMap;
 
 import java.util.List;
 
-public class Pearson extends AlgorithmBaseFunctions {
+public class Pearson extends BaseAlgorithmFunctions {
 
-    public Pearson() {
+    public Pearson(UserHashMap userHashMap, int currentUser) {
+
+        this.userHashMap = userHashMap;
+        this.currentUser = currentUser;
+
         this.algorithmName = "pearson";
         this.sorted = false;
         this.sortMethod = Constants.DESC;

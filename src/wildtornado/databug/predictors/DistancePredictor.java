@@ -5,6 +5,7 @@ import wildtornado.databug.objects.Distance;
 import wildtornado.databug.objects.Prediction;
 import wildtornado.databug.objects.Predictor;
 import wildtornado.databug.objects.Preference;
+import wildtornado.databug.strategies.Algorithm;
 import wildtornado.databug.util.Printer;
 
 import java.util.ArrayList;
@@ -15,6 +16,19 @@ public class DistancePredictor extends BasePredictor {
     private List<Distance> neighbours;
     private UserHashMap userHashMap;
     private List<Integer> rateableProducts;
+
+    public void run(int amount, int minimumNeighbours, Algorithm algorithm) {
+        if (algorithm.isSorted()) {
+            printRatedProducts(currentUser);
+            printUserRatings(currentUser);
+            generateRateableProducts();
+            printRateableProducts();
+            generatePredictions(minimumNeighbours);
+            printPredictions();
+            sortPredictions();
+            printnPredictions(amount);
+        }
+    }
 
     public DistancePredictor(List<Distance> neighbours, UserHashMap userHashMap, int currentUser) {
         this.neighbours = neighbours;

@@ -1,5 +1,6 @@
 package wildtornado;
 
+import wildtornado.databug.objects.Distance;
 import wildtornado.databug.predictors.DistancePredictor;
 import wildtornado.databug.predictors.SlopeOnePredictor;
 import wildtornado.databug.storage.ItemDeviationMatrix;
@@ -32,48 +33,18 @@ public class Start {
 
 
         if (userHashMap.userExists(currentUser)) {
-            Algorithm euclidean = algorithm(userHashMap, currentUser, neighbours, threshold, new Euclidean());
-            Algorithm pearson = algorithm(userHashMap, currentUser, neighbours, threshold, new Pearson());
-            Algorithm cosine = algorithm(userHashMap, currentUser, neighbours, threshold, new Cosine());
+            Algorithm euclidean = new Euclidean(userHashMap, currentUser);
+            euclidean.run(neighbours, threshold);
 
-            DistancePredictor predictor = ratingsPredictor(userHashMap, currentUser, amount, minimumNeighbours, pearson);
+            Algorithm pearson = new Pearson(userHashMap, currentUser);
+            pearson.run(neighbours, threshold);
+
+            Algorithm cosine = new Cosine(userHashMap, currentUser);
+            cosine.run(neighbours, threshold);
+
+            //DistancePredictor predictor = new DistancePredictor(pearson.getxNeighbours(), userHashMap, currentUser);
+            //predictor.run(amount, minimumNeighbours, pearson);
 
         }
-
-//        ItemDeviationMatrix itemDeviationMatrix = new ItemDeviationMatrix(userPreferenceList);
-//        itemDeviationMatrix.generate();
-//        SlopeOnePredictor slope = new SlopeOnePredictor(currentUser, itemDeviationMatrix, userHashMap);
-//        slope.generate();
-//        slope.sortPredictions();
-//        slope.printPredictions();
-
-    }
-
-    private static Algorithm algorithm(UserHashMap userHashMap, int currentUser, int neighbours, double threshold, Algorithm algorithm) {
-        algorithm.generateDistances(userHashMap, currentUser, userHashMap.getSingleUserValues(currentUser));
-        //List<Distance> distances = algorithm.getDistances();
-        algorithm.sortDistances();
-        algorithm.printNeighbours();
-        algorithm.generatexNeighbours(neighbours);
-        algorithm.printxNeighbours();
-        algorithm.generateThresholdNeighbours(threshold);
-        algorithm.printThresholdNeighbours();
-        return algorithm;
-    }
-
-    private static DistancePredictor ratingsPredictor(UserHashMap userHashMap, int currentUser, int amount, int minimumNeighbours, Algorithm algorithm) {
-        if (algorithm.isSorted()) {
-            DistancePredictor predictor = new DistancePredictor(algorithm.getxNeighbours(), userHashMap, currentUser);
-            predictor.printRatedProducts(currentUser);
-            predictor.printUserRatings(currentUser);
-            predictor.generateRateableProducts();
-            predictor.printRateableProducts();
-            predictor.generatePredictions(minimumNeighbours);
-            predictor.printPredictions();
-            predictor.sortPredictions();
-            predictor.printnPredictions(amount);
-            return predictor;
-        }
-        return null;
     }
 }
