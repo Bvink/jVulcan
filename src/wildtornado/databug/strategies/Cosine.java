@@ -14,7 +14,6 @@ public class Cosine extends BaseAlgorithmFunctions {
 
         this.userHashMap = userHashMap;
         this.currentUser = currentUser;
-
         this.algorithmName = "cosine";
         this.sorted = false;
         this.sortMethod = Constants.DESC;
