@@ -11,7 +11,7 @@ import wildtornado.databug.util.Printer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DistancePredictor extends BasePredictor {
+public class DistancePredictorFunctions extends BasePredictorFunctions {
 
     private List<Distance> neighbours;
     private UserHashMap userHashMap;
@@ -30,7 +30,7 @@ public class DistancePredictor extends BasePredictor {
         }
     }
 
-    public DistancePredictor(List<Distance> neighbours, UserHashMap userHashMap, int currentUser) {
+    public DistancePredictorFunctions(List<Distance> neighbours, UserHashMap userHashMap, int currentUser) {
         this.neighbours = neighbours;
         this.userHashMap = userHashMap;
         this.currentUser = currentUser;

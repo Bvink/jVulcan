@@ -1,9 +1,7 @@
 package wildtornado;
 
-import wildtornado.databug.objects.Distance;
-import wildtornado.databug.predictors.DistancePredictor;
-import wildtornado.databug.predictors.SlopeOnePredictor;
-import wildtornado.databug.storage.ItemDeviationMatrix;
+import junit.framework.Assert;
+import org.junit.Test;
 import wildtornado.databug.storage.UserHashMap;
 import wildtornado.databug.strategies.Cosine;
 import wildtornado.databug.strategies.Euclidean;
@@ -19,10 +17,11 @@ public class Start {
 
     public static void main(String[] args) {
         int currentUser = 7;
-        int amount = 3;
         int neighbours = 3;
-        int minimumNeighbours = 1;
         double threshold = 0.35;
+
+        //int amount = 3;
+        //int minimumNeighbours = 1;
 
         DataSetParser parser = new DataSetParser();
         List<UserPreference> userPreferenceList = parser.dataImport(Constants.CSV);
@@ -33,14 +32,18 @@ public class Start {
 
 
         if (userHashMap.userExists(currentUser)) {
+
+            /*
             Algorithm euclidean = new Euclidean(userHashMap, currentUser);
             euclidean.run(neighbours, threshold);
+
 
             Algorithm pearson = new Pearson(userHashMap, currentUser);
             pearson.run(neighbours, threshold);
 
             Algorithm cosine = new Cosine(userHashMap, currentUser);
             cosine.run(neighbours, threshold);
+            */
 
             //DistancePredictor predictor = new DistancePredictor(pearson.getxNeighbours(), userHashMap, currentUser);
             //predictor.run(amount, minimumNeighbours, pearson);
