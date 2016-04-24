@@ -16,17 +16,18 @@ public class Euclidean extends AlgorithmBaseFunctions {
 
     @Override
     protected Distance calculateDistance(List<Preference> userOne, List<Preference> userTwo, int comparedUserID) {
-        double distance = 0;
+        double sum = 0;
         int matches = 0;
         for (Preference prefOne : userOne) {
             for (Preference prefTwo : userTwo) {
                 if (prefTwo.getProduct() == prefOne.getProduct()) {
-                    distance += Math.sqrt(Math.pow(prefOne.getRating(), 2) + Math.pow(prefTwo.getRating(), 2));
+                    sum += Math.pow(prefOne.getRating() - prefTwo.getRating(),  2);
                     matches++;
                     break;
                 }
             }
         }
+        double distance = Math.sqrt(sum);
         return matches > 0 ? new Distance(comparedUserID, distance, matches, checkIfUserHasAdditionalItem(userOne, userTwo), this.sortMethod) : null;
     }
 }
