@@ -8,10 +8,12 @@ import wildtornado.databug.util.Printer;
 
 import java.util.*;
 
-public abstract class AlgorithmBaseFunctions implements Algorithm {
+public abstract class BaseAlgorithmFunctions implements Algorithm {
 
     protected String algorithmName;
 
+    protected UserHashMap userHashMap;
+    protected int currentUser;
     protected List<Distance> distances;
     protected List<Distance> nearestxNeighbours;
     protected double threshold;
@@ -19,6 +21,16 @@ public abstract class AlgorithmBaseFunctions implements Algorithm {
 
     protected boolean sorted = false;
     protected int sortMethod = Constants.UNKNOWN;
+
+    public void run(int neighbours, double threshold) {
+        generateDistances(userHashMap, currentUser, userHashMap.getSingleUserValues(currentUser));
+        sortDistances();
+        printNeighbours();
+        generatexNeighbours(neighbours);
+        printxNeighbours();
+        generateThresholdNeighbours(threshold);
+        printThresholdNeighbours();
+    }
 
     public void generateDistances(UserHashMap userHashMap, int num, List<Preference> currentUserValues) {
         this.sorted = false;

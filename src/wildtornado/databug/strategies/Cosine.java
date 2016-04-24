@@ -4,12 +4,17 @@ package wildtornado.databug.strategies;
 import wildtornado.databug.constants.Constants;
 import wildtornado.databug.objects.Distance;
 import wildtornado.databug.objects.Preference;
+import wildtornado.databug.storage.UserHashMap;
 
 import java.util.List;
 
-public class Cosine extends AlgorithmBaseFunctions {
+public class Cosine extends BaseAlgorithmFunctions {
 
-    public Cosine() {
+    public Cosine(UserHashMap userHashMap, int currentUser) {
+
+        this.userHashMap = userHashMap;
+        this.currentUser = currentUser;
+
         this.algorithmName = "cosine";
         this.sorted = false;
         this.sortMethod = Constants.DESC;

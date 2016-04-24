@@ -6,7 +6,7 @@ import wildtornado.databug.util.Printer;
 import java.util.Collections;
 import java.util.List;
 
-public class BasePredictor {
+public abstract class BasePredictorFunctions {
 
     protected int currentUser;
     protected List<Prediction> predictions;
