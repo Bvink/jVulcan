@@ -8,14 +8,14 @@ import wildtornado.databug.storage.UserHashMap;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SlopeOnePredictorFunctions extends BasePredictorFunctions {
+public class SlopeOnePredictor extends BasePredictorFunctions {
 
     private List<Preference> userProducts;
     private double[][] devMatrix;
     private int[][] freqMatrix;
     private int idMax;
 
-    public SlopeOnePredictorFunctions(int currentUser, ItemDeviationMatrix itemDeviationMatrix, UserHashMap userHashMap) {
+    public SlopeOnePredictor(int currentUser, ItemDeviationMatrix itemDeviationMatrix, UserHashMap userHashMap) {
         this.currentUser = currentUser;
         this.userProducts = userHashMap.getSingleUserValues(currentUser);
         this.devMatrix = itemDeviationMatrix.getDevMatrix();

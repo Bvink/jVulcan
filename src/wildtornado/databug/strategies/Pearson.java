@@ -13,7 +13,6 @@ public class Pearson extends BaseAlgorithmFunctions {
 
         this.userHashMap = userHashMap;
         this.currentUser = currentUser;
-
         this.algorithmName = "pearson";
         this.sorted = false;
         this.sortMethod = Constants.DESC;

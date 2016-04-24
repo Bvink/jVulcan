@@ -2,6 +2,8 @@ package wildtornado;
 
 import junit.framework.Assert;
 import org.junit.Test;
+import wildtornado.databug.predictors.SlopeOnePredictor;
+import wildtornado.databug.storage.ItemDeviationMatrix;
 import wildtornado.databug.storage.UserHashMap;
 import wildtornado.databug.strategies.Cosine;
 import wildtornado.databug.strategies.Euclidean;
@@ -33,21 +35,26 @@ public class Start {
 
         if (userHashMap.userExists(currentUser)) {
 
-            /*
-            Algorithm euclidean = new Euclidean(userHashMap, currentUser);
-            euclidean.run(neighbours, threshold);
+            //Algorithm euclidean = new Euclidean(userHashMap, currentUser);
+            //euclidean.run(neighbours, threshold);
 
+            //Algorithm pearson = new Pearson(userHashMap, currentUser);
+            //pearson.run(neighbours, threshold);
 
-            Algorithm pearson = new Pearson(userHashMap, currentUser);
-            pearson.run(neighbours, threshold);
-
-            Algorithm cosine = new Cosine(userHashMap, currentUser);
-            cosine.run(neighbours, threshold);
-            */
+            //Algorithm cosine = new Cosine(userHashMap, currentUser);
+            //cosine.run(neighbours, threshold);
 
             //DistancePredictor predictor = new DistancePredictor(pearson.getxNeighbours(), userHashMap, currentUser);
             //predictor.run(amount, minimumNeighbours, pearson);
 
+            //ItemDeviationMatrix itemDeviationMatrix = new ItemDeviationMatrix(userPreferenceList);
+            //itemDeviationMatrix.generate();
+            //SlopeOnePredictor slope = new SlopeOnePredictor(currentUser, itemDeviationMatrix, userHashMap);
+            //slope.generate();
+            //slope.sortPredictions();
+
         }
+
+
     }
 }
