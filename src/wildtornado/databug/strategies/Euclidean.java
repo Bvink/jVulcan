@@ -13,6 +13,7 @@ import java.util.List;
 
 public class Euclidean extends BaseAlgorithmFunctions {
 
+    /*
     public Euclidean(UserHashMap userHashMap, int currentUser) {
 
         this.userHashMap = userHashMap;
@@ -21,6 +22,7 @@ public class Euclidean extends BaseAlgorithmFunctions {
         this.sorted = false;
         this.sortMethod = Constants.ASC;
     }
+    */
 
     @Override
     protected Distance calculateDistance(List<Preference> userOne, List<Preference> userTwo, int comparedUserID) {
@@ -55,7 +57,7 @@ public class Euclidean extends BaseAlgorithmFunctions {
         userTwo.add(new Preference(104, 4.5));
         userTwo.add(new Preference(105, 1.5));
 
-        double manualCalculation = Math.sqrt(Math.pow(3.5 - 4.5, 2) + Math.pow(2.5 - 1.5, 2));
+        double manualCalculation = Math.sqrt(Math.pow(userOne.get(0).getRating() - userTwo.get(0).getRating(), 2) + Math.pow(userOne.get(1).getRating() - userTwo.get(1).getRating(), 2));
 
         Assert.assertEquals(calculateDistance(userOne, userTwo, testUser).getDistance(), manualCalculation, 0.0001);
 
